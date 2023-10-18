@@ -13,6 +13,8 @@ pub use serde;
 pub use serde_json;
 pub use serde_repr;
 pub use lazy_static;
+pub use tungstenite;
+pub use http;
 
 pub use messages::*;
 pub use error::*;
