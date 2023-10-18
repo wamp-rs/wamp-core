@@ -5,6 +5,7 @@ edition = "2021"
 description = "WAMP core library for parsing messages."
 readme = "./README.md"
 repository = "https://github.com/wamp-rs/wamp-core"
+exclude = ["./.vscode"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
