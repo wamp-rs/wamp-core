@@ -66,6 +66,11 @@ pub struct Cancel {
     pub options: Value,
 }
 
+struct CancelOptions {
+    // "skip" | "kill" | "killnowait"
+    mode: Option<String>
+}
+
 #[macro_export]
 /// # Cancel Macro - [wamp-proto](https://wamp-proto.org/wamp_latest_ietf.html#name-cancel)
 /// Macro that allows for default empty implementation of options object on Cabcel.

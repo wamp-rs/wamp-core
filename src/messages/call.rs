@@ -73,6 +73,19 @@ pub struct Call {
     pub kwargs: Value,
 }
 
+pub struct CallOptions {
+    receive_progress: Option<bool>,
+    timeout: Option<u64>,
+    progress: Option<bool>,
+    disclose_me: Option<bool>,
+    ppt_cipher: Option<String>,
+    ppt_scheme: Option<String>,
+    ppt_serializer: Option<String>,
+    ppt_keyid: Option<String>,
+    rkey: Option<String>,
+    runmode: Option<String>
+}
+
 #[macro_export]
 /// ## Call Macro - [wamp-proto](https://wamp-proto.org/wamp_latest_ietf.html#name-call-2)
 /// Call message builder with thread safe auto-incrementing request-ids.
@@ -117,35 +130,35 @@ pub struct Call {
 /// let _ = call!("procedure", json!({}), json!([]), json!({}));
 /// ```
 macro_rules! call {
-    ($procedure:expr) => {
-        call! {$procedure, serde_json::json!({}), serde_json::Value::Null, serde_json::Value::Null}
+    ($request_id:expr, $procedure:expr) => {
+        call! {$request_id, $procedure, serde_json::json!({}), serde_json::Value::Null, serde_json::Value::Null}
     };
 
-    ($procedure:expr, $options:expr) => {
-        call! {$procedure, $options, serde_json::Value::Null, serde_json::Value::Null}
+    ($request_id:expr, $procedure:expr, $options:expr) => {
+        call! {$request_id, $procedure, $options, serde_json::Value::Null, serde_json::Value::Null}
     };
 
-    ($procedure:expr, args: $args:expr) => {
-        call! {$procedure, serde_json::json!({}), $args, serde_json::Value::Null}
+    ($request_id:expr, $procedure:expr, args: $args:expr) => {
+        call! {$request_id, $procedure, serde_json::json!({}), $args, serde_json::Value::Null}
     };
 
-    ($procedure:expr, kwargs: $kwargs:expr) => {
-        call! {$procedure, serde_json::json!({}), serde_json::Value::Null, $kwargs}
+    ($request_id:expr, $procedure:expr, kwargs: $kwargs:expr) => {
+        call! {$request_id, $procedure, serde_json::json!({}), serde_json::Value::Null, $kwargs}
     };
 
-    ($procedure:expr, args: $args:expr, kwargs: $kwargs:expr) => {
-        call! {$procedure, serde_json::json!({}), $args, $kwargs}
+    ($request_id:expr, $procedure:expr, args: $args:expr, kwargs: $kwargs:expr) => {
+        call! {$request_id, $procedure, serde_json::json!({}), $args, $kwargs}
     };
 
-    ($procedure:expr, $options:expr, args: $args:expr) => {
-        call! {$procedure, $options, $args, serde_json::Value::Null}
+    ($request_id:expr, $procedure:expr, $options:expr, args: $args:expr) => {
+        call! {$request_id, $procedure, $options, $args, serde_json::Value::Null}
     };
 
-    ($procedure:expr, $options:expr, kwargs: $kwargs:expr) => {
-        call! {$procedure, $options, serde_json::Value::Null, $kwargs}
+    ($request_id:expr, $procedure:expr, $options:expr, kwargs: $kwargs:expr) => {
+        call! {$request_id, $procedure, $options, serde_json::Value::Null, $kwargs}
     };
 
-    ($procedure:expr, $options:expr, $args:expr, $kwargs:expr) => {{
+    ($request_id:expr, $procedure:expr, $options:expr, $args:expr, $kwargs:expr) => {{
         $crate::messages::Call {
             request_id: $crate::factories::increment(),
             options: $options,

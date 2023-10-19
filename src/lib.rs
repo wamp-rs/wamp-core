@@ -2,9 +2,20 @@
 #![crate_name = "wamp_core"]
 #![feature(slice_pattern)]
 #![feature(lazy_cell)]
+#![warn(missing_docs)]
+
+/// Messages module is used for the bulk of all things WAMP messages.
 pub mod messages;
+
 pub mod roles;
+
+/// WAMP roles.
+pub use roles::Roles;
+
+/// Library error []
 pub mod error;
+
+/// 
 pub mod factories;
 pub mod uri;
 
